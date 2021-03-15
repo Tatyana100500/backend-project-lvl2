@@ -6,10 +6,10 @@ const program = new Command();
 program.version('0.0.1', '-V, --version', 'output the version number');
 program.helpOption('-h, --help', 'output usage information');
 program.arguments('<filepath1> <filepath2>');
-  //.action((filepath1, filepath2) => {
-   // console.log('filepath1:', filepath1);
-   // console.log('filepath2:', filepath2);
-  //});
+// .action((filepath1, filepath2) => {
+// console.log('filepath1:', filepath1);
+// console.log('filepath2:', filepath2);
+// });
 program.option('-f, --format [type]', 'output format');
 program
   .arguments('format')

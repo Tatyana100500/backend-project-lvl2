@@ -19,21 +19,21 @@ const funcDiff = (file1, file2) => {
   const parseData1 = Object.keys(obj1).slice().sort();
   const parseData2 = Object.keys(obj2).slice().sort();
   let result = '';
-  for (let i = 0; i < parseData1.length; i ++) {
+  for (let i = 0; i < parseData1.length; i++) {
     if (parseData2.includes(parseData1[i])) {
-        if (obj1[parseData1[i]] === obj2[parseData1[i]]) {
-          result += `  ${parseData1[i]}: ${obj1[parseData1[i]]}`;
-        } else {
-          result += ` - ${parseData1[i]}: ${obj1[parseData1[i]]}  + ${parseData1[i]}: ${obj2[parseData1[i]]}`;
-        }
+      if (obj1[parseData1[i]] === obj2[parseData1[i]]) {
+        result += `  ${parseData1[i]}: ${obj1[parseData1[i]]}`;
+      } else {
+        result += ` - ${parseData1[i]}: ${obj1[parseData1[i]]}  + ${parseData1[i]}: ${obj2[parseData1[i]]}`;
+      }
     } else {
       result += ` - ${parseData1[i]}: ${obj1[parseData1[i]]}`;
     }
   }
-  for (let j = 0; j < parseData2.length; j ++) {
+  for (let j = 0; j < parseData2.length; j++) {
     if (!parseData1.includes(parseData2[j])) {
-      result += ` + ${parseData2[j]}: ${obj2[parseData2[j]]}`;  
-    } 
+      result += ` + ${parseData2[j]}: ${obj2[parseData2[j]]}`;
+    }
   }
   console.log(result);
 };
