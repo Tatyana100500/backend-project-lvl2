@@ -1,63 +1,61 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
 import yaml from 'js-yaml';
 
 const wd = '/Users/tatyana/Documents/GitHub/backend-project-lvl2';
 const makeAst = (d1, d2) => {
-    //console.log(d1);
-    const parseData1 = Object.keys(d1).slice().sort();
-    const parseData2 = Object.keys(d2).slice().sort();
-    //console.log(parseData1, parseData2);
-    let result = '';
-    for (let i = 0; i < parseData1.length; i ++) {
-      if (parseData2.includes(parseData1[i])) {
-        if (d1[parseData1[i]] === d2[parseData1[i]]) {
-          result += `  ${parseData1[i]}: ${d1[parseData1[i]]}`;
-        } else {
-          result += ` - ${parseData1[i]}: ${d1[parseData1[i]]}  + ${parseData1[i]}: ${d2[parseData1[i]]}`;
-        }
+  // console.log(d1);
+  const parseData1 = Object.keys(d1).slice().sort();
+  const parseData2 = Object.keys(d2).slice().sort();
+  // console.log(parseData1, parseData2);
+  let result = '';
+  for (let i = 0; i < parseData1.length; i + 1) {
+    if (parseData2.includes(parseData1[i])) {
+      if (d1[parseData1[i]] === d2[parseData1[i]]) {
+        result += `  ${parseData1[i]}: ${d1[parseData1[i]]}`;
       } else {
-        result += ` - ${parseData1[i]}: ${d1[parseData1[i]]}`;
+        result += ` - ${parseData1[i]}: ${d1[parseData1[i]]}  + ${parseData1[i]}: ${d2[parseData1[i]]}`;
       }
+    } else {
+      result += ` - ${parseData1[i]}: ${d1[parseData1[i]]}`;
     }
-    for (let j = 0; j < parseData2.length; j ++) {
-      if (!parseData1.includes(parseData2[j])) {
-        result += ` + ${parseData2[j]}: ${d2[parseData2[j]]}`;
-      }
+  }
+  for (let j = 0; j < parseData2.length; j + 1) {
+    if (!parseData1.includes(parseData2[j])) {
+      result += ` + ${parseData2[j]}: ${d2[parseData2[j]]}`;
     }
-    return result;
-    };
+  }
+  return result;
+};
 
 const func = (data1, data2) => {
-//console.log(data1);
-const parseData1 = Object.keys(data1).slice().sort();
-const parseData2 = Object.keys(data2).slice().sort();
-//console.log(parseData1, parseData2);
-let result = '';
-for (let i = 0; i < parseData1.length; i ++) {
-  if (parseData2.includes(parseData1[i])) {
-    if (typeof(data1[parseData1[i]]) === 'object' && typeof(data2[parseData1[i]]) === 'object') {
+// console.log(data1);
+  const parseData1 = Object.keys(data1).slice().sort();
+  const parseData2 = Object.keys(data2).slice().sort();
+  // console.log(parseData1, parseData2);
+  let result = '';
+  for (let i = 0; i < parseData1.length; i + 1) {
+    if (parseData2.includes(parseData1[i])) {
+      if (typeof (data1[parseData1[i]]) === 'object' && typeof (data2[parseData1[i]]) === 'object') {
         result += `${parseData1[i]}: {
              ${makeAst(data1[parseData1[i]], data2[parseData1[i]])}
         }`;
+      } else if (data1[parseData1[i]] === data2[parseData1[i]]) {
+        result += `  ${parseData1[i]}: ${data1[parseData1[i]]}`;
       } else {
-    if (data1[parseData1[i]] === data2[parseData1[i]]) {
-      result += `  ${parseData1[i]}: ${data1[parseData1[i]]}`;
+        result += ` - ${parseData1[i]}: ${data1[parseData1[i]]}  + ${parseData1[i]}: ${data2[parseData1[i]]}`;
+      }
     } else {
-      result += ` - ${parseData1[i]}: ${data1[parseData1[i]]}  + ${parseData1[i]}: ${data2[parseData1[i]]}`;
+      result += ` - ${parseData1[i]}: ${data1[parseData1[i]]}`;
     }
   }
-  } else {
-    result += ` - ${parseData1[i]}: ${data1[parseData1[i]]}`;
-  } 
-}
-for (let j = 0; j < parseData2.length; j ++) {
-  if (!parseData1.includes(parseData2[j])) {
-    result += ` + ${parseData2[j]}: ${data2[parseData2[j]]}`;
+  for (let j = 0; j < parseData2.length; j + 1) {
+    if (!parseData1.includes(parseData2[j])) {
+      result += ` + ${parseData2[j]}: ${data2[parseData2[j]]}`;
+    }
   }
-}
-return result;
+  return result;
 };
 
 const funcDiff = (file1, file2, formatName) => {
@@ -78,7 +76,7 @@ const funcDiff = (file1, file2, formatName) => {
   } else if (format1 === '.yml') {
     parse1 = yaml.load;
     console.log('parse', parse1);
-  } 
+  }
   let parse2;
   if (format2 === '' || format1 === '.json') {
     parse2 = JSON.parse;
@@ -88,8 +86,7 @@ const funcDiff = (file1, file2, formatName) => {
   const obj1 = parse1(fs.readFileSync(path1));
   const obj2 = parse2(fs.readFileSync(path2));
   console.log('!!!', formatName);
-  
-console.log(func(obj1, obj2));
+
+  console.log(func(obj1, obj2));
 };
 export default funcDiff;
-

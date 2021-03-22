@@ -19,7 +19,7 @@ program
   .action((format) => {
     console.log('format:', format);
   });
-//program.parse();
+// program.parse();
 const a = program.parse(process.argv);
 console.log('!!!!!!!', a._optionValues.format);
 console.log('Options: ', diff(a.args[0], a.args[1], a._optionValues.format));
