@@ -1,9 +1,9 @@
 import { test, expect } from '@jest/globals';
-import myDiff from './index.js';
 import fs from 'fs';
-import path from 'path';
+import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+
+import myDiff from './index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,5 +13,5 @@ const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8'
 
 test('myDiff', () => {
   const result = readFile('result.json');
-  expect(myDiff('testfile1.json','testfile2.json')).toEqual(result);
+  expect(myDiff('testfile1.json', 'testfile2.json')).toEqual(result);
 });
