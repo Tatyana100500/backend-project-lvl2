@@ -1,4 +1,25 @@
 // @ts-check
-import diff from './src/myDiff.js';
+import { resolve, extname } from 'path';
+import { readFileSync } from 'fs';
+import buildDiff from './src/myDiff.js';
+import parse from './src/parsers.js';
+import format from './formatters/index.js';
 
-export default diff;
+const resolveFilepath = (filepath) => resolve(process.cwd(), filepath);
+const getFormat = (filepath) => extname(filepath).slice(1);
+
+const getData = (filepath) => {
+  const resolvedFilepath = resolveFilepath(filepath);
+  const parsername = getFormat(resolvedFilepath);
+  const data = readFileSync(resolvedFilepath);
+
+  return parse(data, parsername);
+};
+
+export default (filepath1, filepath2, formatname = 'stylish') => {
+  const data1 = getData(filepath1);
+  const data2 = getData(filepath2);
+
+  const diff = buildDiff(data1, data2);
+  return format(diff, formatname);
+};
