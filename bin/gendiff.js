@@ -1,25 +1,24 @@
 #!/usr/bin/env node
-import { Command } from 'commander/esm.mjs';
-import diff from '../index.js';
+
+import commander from 'commander';
+import genDiff from '../index.js';
+
+const { Command, Option } = commander;
+
+const formatOption = new Option('-f, --format [type]', 'output format')
+  .choices(['stylish', 'plain', 'json'])
+  .default('stylish');
 
 const program = new Command();
-program.version('0.0.1', '-V, --version', 'output the version number');
-program.helpOption('-h, --help', 'output usage information');
-program.arguments('format', '<filepath1> <filepath2>');
-// .action((filepath1, filepath2) => {
-// console.log('filepath1:', filepath1);
-// console.log('filepath2:', filepath2);
-// });
-program.option('-f, --format [type]', 'output format', 'stylish');
+
 program
-  .arguments('format')
-  .description('Compares two configuration files and shows a difference.', {
-    format: 'output format',
-  })
-  .action((format) => {
-    console.log('format:', format);
+  .version('0.0.1', '-V, --version', 'output the version number')
+  .description('Compares two configuration files and shows a difference.')
+  .arguments('<filepath1> <filepath2>')
+  .addOption(formatOption)
+  .action((filepath1, filepath2, options) => {
+    const diff = genDiff(filepath1, filepath2, options.format);
+    console.log(diff);
   });
-// program.parse();
-const a = program.parse(process.argv);
-console.log('!!!!!!!', a._optionValues.format);
-console.log('Options: ', diff(a.args[0], a.args[1], a._optionValues.format));
+
+program.parse();
