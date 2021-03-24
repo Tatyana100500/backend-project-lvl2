@@ -1,9 +1,9 @@
 // @ts-check
 import { resolve, extname } from 'path';
 import { readFileSync } from 'fs';
-import buildDiff from './src/myDiff.js';
-import parse from './src/parsers.js';
-import format from './formatters/index.js';
+import buildDiff from './myDiff.js';
+import parse from './parsers.js';
+import format from '../formatters/index.js';
 
 const resolveFilepath = (filepath) => resolve(process.cwd(), filepath);
 const getFormat = (filepath) => extname(filepath).slice(1);
